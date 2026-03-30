@@ -15,3 +15,6 @@ verify:
 dev:
 	# Concurrent dev server (simplified)
 	(cd backend && go run cmd/api/main.go) & (cd frontend && npm run dev)
+
+admin:
+	cd backend && go run cmd/admin/main.go $(ARGS)

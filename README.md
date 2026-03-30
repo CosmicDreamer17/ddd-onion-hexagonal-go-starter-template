@@ -1,60 +1,67 @@
-# Autonomous Architecture Template
+# AI-Autonomous Go + Next.js Monorepo Starter
 
-A high-performance, locally-verifiable, and rigidly isolated template designed for AI-driven software engineering. 
+A high-performance, strictly bounded Monorepo template optimized for AI-agent maintenance.
 
-**Stack:** Go (Hexagonal) + Next.js (App Router) + SQLite + Tailwind CSS.
+## 🚀 Quick Start (Create Your Own)
 
-## 🏗 Architecture
+### Path A: Using GitHub CLI (Recommended)
+Bootstrap a new repo from this template:
+```bash
+gh repo create my-new-app --template CosmicDreamer17/ddd-onion-hexagonal-go-starter-template --public --clone
+```
 
-### Strict Hexagonal Boundaries (Backend)
-Enforced locally and in CI via `depguard` and `golangci-lint`:
-- `domain`: Pure Go business rules. **Zero dependencies**.
-- `application`: Use-cases & interface definitions (Ports).
-- `infra`: Technical implementations (Adapters - DB, external APIs).
-- `api`: HTTP delivery layer (Controllers, JSON decoding).
+### Path B: Using `degit` (No GitHub CLI)
+```bash
+npx degit CosmicDreamer17/ddd-onion-hexagonal-go-starter-template my-new-app
+```
 
-### The "Zero-Drift" Type Bridge
-- **Database to Go:** `sqlc` transpiles raw SQL (`query.sql`) into type-safe Go data access functions. 
-- **Go to TypeScript:** `tygo` converts Go DTOs (`backend/internal/api/dtos`) directly into TypeScript interfaces (`frontend/src/types/generated/index.ts`).
+> **🤖 Note for AI Agents**: If you are bootstrapping this project, refer to the [Agentic Bootstrap](./AI.md#🚀-agentic-bootstrap-creating-a-new-project) section in `AI.md` for mandatory initialization steps.
 
-## 🚀 Quickstart
+---
 
-### 1. Requirements
-- [Go](https://go.dev/dl/) 1.22+
-- [Node.js](https://nodejs.org/) 20+
-- [Docker](https://www.docker.com/) (Optional)
+## 🏗 Architecture (Hexagonal + DDD)
 
-### 2. Local Development
+### Backend (Go in `/backend`)
+- **`internal/domain`**: Pure business logic. Zero internal dependencies.
+- **`internal/application`**: Ports (Interfaces) and Use Cases.
+- **`internal/infra`**: SQLite + sqlc adapters.
+- **`internal/api`**: Chi-based HTTP server + DTOs.
+- **`cmd/admin`**: CLI Admin tool (Terminal Adapter).
 
-Run the concurrent dev server (requires `make`):
+### Frontend (Next.js App in `/frontend`)
+- **Types**: Zero-drift bindings generated via `tygo` into `/frontend/src/types/generated/`.
 
+## 📡 Operations
+
+### 1. Development (Local)
 ```bash
 make dev
 ```
-- Frontend: `http://localhost:3000`
-- Backend: `http://localhost:8080`
+- **Frontend (Next.js)**: [http://localhost:3000](http://localhost:3000)
+- **Backend (Go)**: [http://localhost:8080](http://localhost:8080)
 
-### 3. Verification & Generation
-
-Whenever you modify SQL schemas or Go DTOs, regenerate the type bridges:
-
+### 2. Admin CLI (Direct Use-Case Execution)
+Interact with the backend directly from the terminal without HTTP overhead:
 ```bash
-make generate
+make admin ARGS="register --email user@example.com --password securepass"
 ```
 
-Before committing, run the full architectural and linting suite:
-
+### 3. Verification (CI/CD)
 ```bash
 make verify
 ```
+Runs architectural leak checks (depguard), formatting, and workspace tests.
 
-### 4. Docker Deployment
-
+### 4. Sync Types
 ```bash
-docker-compose up --build -d
+make generate
 ```
+Triggers `sqlc` and `tygo` generation.
 
-## 🤖 Agent Protocols
+## 🤖 Agentic Maintenance
+This repository is "AI-Autonomous Ready." It includes specialized markdown files in the root:
+- **`AI.md` (Master)**: The single source of truth for architectural mandates and quality-of-life instructions for all AI agents (Gemini, Claude, Codex/Cursor).
+- **Tool Entry Points**: `GEMINI.md`, `CLAUDE.md`, and `CODEX.md` provide tool-specific onboarding while referencing the master rules.
 
-This repository contains strict instructions for autonomous agents (like Gemini or Claude) located in `GEMINI.md`, `CLAUDE.md`, and `.gemini/skills/architect.md`. 
-Agents will automatically read these instructions and act as **Principal Systems Architects**, refusing to break boundary layers and heavily utilizing `/plan` mode before touching the Domain.
+## 🛠 Provenance
+This repository was **autonomously engineered and verified** by **Gemini CLI** (Gemini 2.0 Flash) on **Sunday, March 29, 2026**. See [PROVENANCE.md](./PROVENANCE.md) for full metadata.
