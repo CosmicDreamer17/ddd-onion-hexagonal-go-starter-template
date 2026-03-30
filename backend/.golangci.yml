@@ -1,0 +1,34 @@
+version: "2"
+
+linters:
+  default: none
+  enable:
+    - depguard
+    - revive
+    - govet
+    - staticcheck
+  settings:
+    depguard:
+      rules:
+        domain:
+          files:
+            - "**/internal/domain/**"
+          allow:
+            - "$gostd"
+            - "github.com/google/uuid"
+          deny:
+            - pkg: "github.com/myorg/myapp/backend/internal/infra"
+              desc: "Domain layer must not import infra layer"
+            - pkg: "github.com/myorg/myapp/backend/internal/api"
+              desc: "Domain layer must not import api layer"
+        application:
+          files:
+            - "**/internal/application/**"
+          allow:
+            - "$gostd"
+            - "github.com/myorg/myapp/backend/internal/domain"
+          deny:
+            - pkg: "github.com/myorg/myapp/backend/internal/infra"
+              desc: "Application layer must not import infra layer"
+            - pkg: "github.com/myorg/myapp/backend/internal/api"
+              desc: "Application layer must not import api layer"

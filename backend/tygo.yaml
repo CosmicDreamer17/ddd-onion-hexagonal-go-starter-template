@@ -1,0 +1,5 @@
+packages:
+  - path: "github.com/myorg/myapp/backend/internal/api/dtos"
+    type_mappings:
+      "time.Time": "string"
+    output_path: "../frontend/src/types/generated/index.ts"
